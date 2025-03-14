@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management</title>
+    <script>
+        function updateOverdueTasks(userId) {
+            fetch(`/overdue_tasks/${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    let alertBadge = document.getElementById('overdue-alert');
+                    if (data.overdue_count > 0) {
+                        alertBadge.innerText = data.overdue_count;
+                        alertBadge.style.display = 'inline';
+                    } else {
+                        alertBadge.style.display = 'none';
+                    }
+                });
+        }
+        window.onload = function() {
+            let userId = "{{ user.id }}"; // Lấy user_id từ template
+            if (userId) {
+                updateOverdueTasks(userId);
+            }
+        };
+    </script>
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
